@@ -1,0 +1,74 @@
+/* Zen's neutral menu surface; placement still follows the saved-list pane. */
+.chrome-menu-layer > .chrome-menu {
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 3px;
+  border: 1px solid #ffffff1a;
+  border-radius: 3px;
+  background: rgb(32 32 32 / 98%);
+  box-shadow: 0 4px 16px #0004;
+  backdrop-filter: blur(20px);
+  color: #fbfbfe;
+  scrollbar-width: thin;
+  scrollbar-color: #555 #202020;
+}
+
+.chrome-menu-layer .chrome-menu-item {
+  min-width: 0;
+  min-height: 34px;
+  gap: 12px;
+  padding: 6px 8px;
+  border-radius: 2px;
+  color: #fbfbfe;
+  font: 400 12px/20px "Yu Gothic UI", "Segoe UI", "Noto Sans JP", sans-serif;
+  white-space: normal;
+  cursor: default;
+  transition: background-color 100ms ease;
+}
+
+.chrome-menu-layer .chrome-menu-item > .ui-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: inherit;
+  stroke-width: 1.8;
+}
+
+.chrome-menu-layer .chrome-menu-item > span {
+  overflow-wrap: anywhere;
+}
+
+.chrome-menu-layer .chrome-menu-item small {
+  display: block;
+  margin-top: 2px;
+  color: #a0a0a0;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.chrome-menu-layer .chrome-menu-item:hover:not(:disabled),
+.chrome-menu-layer .chrome-menu-item:focus-visible {
+  background: #ffffff14;
+  color: #fbfbfe;
+}
+
+.chrome-menu-layer .chrome-menu-item:focus-visible {
+  outline: none;
+}
+
+.chrome-menu-layer .chrome-menu-item[aria-checked="true"] > .ui-icon:last-child {
+  width: 14px;
+  height: 14px;
+  margin-left: -6px;
+  color: inherit;
+}
+
+.chrome-menu-layer .chrome-menu-separator {
+  height: 1px;
+  margin: 5px 4px;
+  background: #ffffff26;
+}

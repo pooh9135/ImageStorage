@@ -1,0 +1,165 @@
+/* A single quiet surface, matching Zen's compact navigation controls. */
+.selection-tools {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.image-selection-toolbar {
+  display: flex;
+  max-width: 100%;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border: 1px solid #ffffff14;
+  border-radius: 6px;
+  background: rgb(32 32 32 / 92%);
+  box-shadow: 0 4px 16px #0003;
+  backdrop-filter: blur(16px);
+  color: #b0b0b0;
+}
+
+.image-selection-toolbar .image-palette,
+.image-selection-toolbar .image-quick-tools {
+  height: auto;
+  min-height: 30px;
+  gap: 3px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.image-selection-toolbar .image-palette {
+  min-width: 0;
+  gap: 8px;
+  padding-left: 4px;
+}
+
+.image-selection-toolbar .palette-label {
+  display: grid;
+  flex: 0 0 16px;
+  place-items: center;
+  color: #8e8e8e;
+}
+
+.image-selection-toolbar .palette-swatches {
+  gap: 4px;
+}
+
+.image-selection-toolbar .palette-swatches button,
+.image-selection-toolbar .palette-loading-swatch {
+  position: relative;
+  display: grid;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  place-items: center;
+  border: 1px solid #ffffff26;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px #00000014;
+}
+
+.image-selection-toolbar .palette-swatches button:hover {
+  outline: 1px solid #b0b0b0;
+  transform: none;
+}
+
+.image-selection-toolbar .palette-swatches button.copied {
+  outline: 1px solid #ededed;
+}
+
+.image-selection-toolbar .palette-swatches button > .ui-icon {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  background: #161616cc;
+  color: #fff;
+}
+
+.image-toolbar-divider {
+  width: 1px;
+  height: 20px;
+  flex: 0 0 1px;
+  background: #ffffff12;
+}
+
+.image-selection-toolbar .image-tool-button {
+  position: relative;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  flex: 0 0 28px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #b0b0b0;
+  cursor: default;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.image-selection-toolbar .image-tool-button:hover {
+  background: #ffffff12;
+  color: #ededed;
+}
+
+.image-selection-toolbar .image-tool-button.active {
+  background: #ffffff18;
+  color: #ededed;
+}
+
+.image-selection-toolbar .image-favorite-button.active .ui-icon {
+  fill: currentColor;
+}
+
+.image-selection-toolbar .image-tool-separator {
+  height: 16px;
+  margin: 0 3px;
+  background: #ffffff12;
+}
+
+.image-selection-toolbar [data-tooltip]::after {
+  position: absolute;
+  z-index: 2;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  padding: 6px 9px;
+  border: 1px solid #ffffff1f;
+  border-radius: 4px;
+  background: #202020;
+  box-shadow: 0 3px 10px #0003;
+  color: #ededed;
+  content: attr(data-tooltip);
+  font: 400 11px/1.4 "Segoe UI", "Noto Sans JP", sans-serif;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 120ms ease;
+}
+
+.image-selection-toolbar [data-tooltip]:hover::after,
+.image-selection-toolbar [data-tooltip]:focus-visible::after {
+  opacity: 1;
+  transition-delay: 350ms;
+}
+
+@media (max-width: 600px) {
+  .image-selection-toolbar {
+    flex-wrap: wrap;
+    gap: 4px 8px;
+  }
+
+  .image-toolbar-divider {
+    display: none;
+  }
+
+  .image-selection-toolbar .palette-swatches {
+    flex-wrap: wrap;
+  }
+}

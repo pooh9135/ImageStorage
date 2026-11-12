@@ -1,0 +1,282 @@
+/* Settings occupy the same main pane as a saved list. */
+.app-shell > .workspace[hidden] {
+  display: none;
+}
+
+.app-shell > .settings-page.settings-dialog {
+  position: relative;
+  display: grid;
+  grid-column: 2;
+  grid-row: 1;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--zen-border);
+  border-radius: 4px;
+  background: var(--zen-panel);
+  box-shadow: none;
+  container-type: inline-size;
+  container-name: settings-page;
+}
+
+.settings-page.settings-dialog > header {
+  min-height: 68px;
+  padding: 16px 24px;
+}
+
+.settings-page.settings-dialog > header h2 {
+  font-size: 19px;
+  letter-spacing: -0.015em;
+}
+
+.settings-page.settings-dialog > header > button {
+  display: grid;
+  place-items: center;
+  border-radius: 3px;
+}
+
+.settings-page .settings-layout {
+  display: grid;
+  grid-template-columns: 188px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+  min-width: 0;
+}
+
+.settings-page .settings-categories {
+  flex-direction: column;
+  gap: 3px;
+  padding: 20px 12px;
+  border-right: 1px solid var(--zen-border);
+  border-bottom: 0;
+}
+
+.settings-page .settings-categories button {
+  min-height: 38px;
+  padding: 9px 11px;
+  border-radius: 3px;
+  font-size: 13px;
+  white-space: normal;
+}
+
+.settings-page .settings-categories button.active {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--zen-text);
+}
+
+.settings-page .settings-categories button.active::before {
+  border-radius: 0;
+  background: var(--zen-muted);
+}
+
+.settings-page .settings-layout > .settings-scroll {
+  display: block;
+  min-height: 0;
+  min-width: 0;
+  padding: 28px clamp(18px, 4cqw, 48px);
+  overflow-y: auto;
+}
+
+.settings-page.settings-dialog fieldset {
+  width: 100%;
+  max-width: 720px;
+  min-width: 0;
+  margin: 0;
+  padding: 22px;
+  border-radius: 4px;
+}
+
+.settings-page.settings-dialog fieldset[hidden] {
+  display: none;
+}
+
+.settings-page.settings-dialog legend {
+  padding: 0 7px;
+  font-size: 14px;
+}
+
+.settings-page.settings-dialog > footer {
+  min-height: 62px;
+  padding: 14px 24px;
+  background: var(--zen-panel);
+}
+
+.settings-page.settings-dialog > footer button {
+  border-radius: 3px;
+}
+
+@container settings-page (max-width: 620px) {
+  .settings-page .settings-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .settings-page .settings-categories {
+    flex-direction: row;
+    gap: 4px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--zen-border);
+  }
+
+  .settings-page .settings-categories button {
+    min-height: 34px;
+    flex: 0 0 auto;
+    gap: 7px;
+    padding: 7px 10px;
+    white-space: nowrap;
+  }
+
+  .settings-page .settings-categories button.active::before {
+    top: auto;
+    right: 10px;
+    bottom: 0;
+    left: 10px;
+    width: auto;
+    height: 2px;
+  }
+
+  .settings-page .settings-layout > .settings-scroll {
+    padding: 18px 14px;
+  }
+
+  .settings-page.settings-dialog fieldset {
+    padding: 16px;
+  }
+
+  .settings-page.settings-dialog > footer {
+    gap: 8px;
+    padding: 12px 14px;
+  }
+}
+
+@media (max-height: 520px) {
+  .settings-page.settings-dialog > header {
+    min-height: 52px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+
+  .settings-page.settings-dialog > footer {
+    min-height: 52px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+}
+
+/* Reference colors are scoped to settings; geometry and control sizes stay shared. */
+.app-shell > .settings-page.settings-dialog {
+  --zen-bg: #08090a;
+  --zen-panel: #0f1011;
+  --zen-panel-raised: #161718;
+  --zen-inset: #08090a;
+  --zen-border: #23252a;
+  --zen-border-strong: #383b3f;
+  --zen-text: #d0d6e0;
+  --zen-muted: #8a8f98;
+  --zen-accent: #d0d6e0;
+  background: var(--zen-bg);
+  color: var(--zen-text);
+}
+
+.settings-page.settings-dialog > header,
+.settings-page.settings-dialog > footer,
+.settings-page .settings-categories,
+.settings-page.settings-dialog fieldset {
+  background: var(--zen-panel);
+}
+
+.settings-page.settings-dialog > header h2 {
+  color: #ffffff;
+}
+
+.settings-page .settings-categories button:hover,
+.settings-page .settings-categories button.active {
+  background: var(--zen-panel-raised);
+  color: var(--zen-text);
+}
+
+.settings-page .settings-categories button.active::before {
+  background: var(--zen-text);
+}
+
+.settings-page.settings-dialog :is(input, select, textarea)::placeholder {
+  color: var(--zen-muted);
+}
+
+.settings-page.settings-dialog :is(input:not([type]), input[type="text"], select) {
+  border-color: var(--zen-border);
+  background: var(--zen-panel-raised);
+}
+
+.settings-page.settings-dialog :is(.settings-action-row, .settings-project-actions) button,
+.settings-page.settings-dialog > footer .settings-reset {
+  border-color: var(--zen-border-strong);
+  background: transparent;
+  color: var(--zen-text);
+}
+
+.settings-page.settings-dialog :is(.settings-action-row, .settings-project-actions) button:hover:not(:disabled),
+.settings-page.settings-dialog > footer .settings-reset:hover:not(:disabled) {
+  border-color: var(--zen-muted);
+  background: var(--zen-panel-raised);
+  color: var(--zen-text);
+}
+
+.settings-page.settings-dialog > footer .settings-done {
+  border-color: var(--zen-border-strong);
+  background: var(--zen-bg);
+  color: var(--zen-text);
+}
+
+.settings-page.settings-dialog > footer .settings-done:hover:not(:disabled) {
+  border-color: var(--zen-muted);
+  background: var(--zen-panel-raised);
+  color: var(--zen-text);
+}
+
+.settings-page.settings-dialog > footer .settings-done:active:not(:disabled) {
+  border-color: var(--zen-muted);
+  background: var(--zen-bg);
+}
+
+.settings-page.settings-dialog input[type="checkbox"] {
+  border-color: var(--zen-muted);
+}
+
+.settings-page.settings-dialog input[type="checkbox"]:checked {
+  border-color: var(--zen-text);
+  background: var(--zen-text);
+}
+
+.settings-page.settings-dialog input[type="checkbox"]::before {
+  border-color: var(--zen-bg);
+}
+
+.settings-page.settings-dialog input[type="range"] {
+  border-color: var(--zen-border-strong);
+}
+
+.settings-page.settings-dialog :is(button, input, select, textarea):focus-visible {
+  outline-color: var(--zen-text);
+}
+
+.settings-page.settings-dialog :is(input, select, textarea):focus {
+  border-color: var(--zen-text);
+}
+
+.settings-page :is(.settings-scroll, .settings-categories) {
+  scrollbar-color: var(--zen-border-strong) transparent;
+}
+
+.settings-page .settings-scroll::-webkit-scrollbar-thumb {
+  border-color: var(--zen-bg);
+  background: var(--zen-border-strong);
+}

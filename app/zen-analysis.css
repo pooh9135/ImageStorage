@@ -1,0 +1,145 @@
+/* Neutral editor chrome; image pixels, guide colors and drawing bounds stay unchanged. */
+.desktop-root.is-analysis-window,
+.analysis-loading,
+.analysis-window {
+  --zen-bg: #08090a;
+  --zen-panel: #0f1011;
+  --zen-panel-raised: #161718;
+  --zen-inset: #08090a;
+  --zen-border: #23252a;
+  --zen-border-strong: #383b3f;
+  --zen-text: #d0d6e0;
+  --zen-muted: #8a8f98;
+  --zen-accent: #d0d6e0;
+  background: var(--zen-bg);
+  color: var(--zen-text);
+}
+
+html.native-backdrop-acrylic .desktop-root.is-analysis-window {
+  background: var(--zen-bg);
+}
+
+.analysis-window :is(.analysis-tools, .analysis-presets) {
+  border-color: var(--zen-border);
+  border-radius: 4px;
+  background: var(--zen-panel);
+}
+
+.analysis-window .analysis-stage-shell {
+  border-color: var(--zen-border);
+  border-radius: 4px;
+  background: var(--zen-bg);
+}
+
+.analysis-window :is(.analysis-tools, .analysis-presets) strong {
+  color: var(--zen-text);
+}
+
+.analysis-window :is(.analysis-tools label, .analysis-guide-color) {
+  color: var(--zen-muted);
+}
+
+.analysis-window :is(.analysis-tools, .analysis-presets) button {
+  border-color: var(--zen-border);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--zen-muted);
+}
+
+.analysis-window :is(.analysis-tools, .analysis-presets) button:hover:not(:disabled),
+.analysis-window :is(.analysis-tools, .analysis-presets) button.active {
+  border-color: var(--zen-border-strong);
+  background: var(--zen-panel-raised);
+  color: var(--zen-text);
+}
+
+.analysis-window .preset-thumbnail {
+  border-color: var(--zen-muted);
+  background: transparent;
+  color: var(--zen-muted);
+}
+
+.analysis-window .analysis-presets button.active .preset-thumbnail {
+  border-color: var(--zen-text);
+  color: var(--zen-text);
+}
+
+.analysis-window .analysis-presets > .analysis-save {
+  border-color: var(--zen-border-strong);
+  background: var(--zen-bg);
+  color: var(--zen-text);
+}
+
+.analysis-window .analysis-presets > .analysis-save:hover:not(:disabled) {
+  border-color: var(--zen-muted);
+  background: var(--zen-panel-raised);
+  color: var(--zen-text);
+}
+
+.analysis-window .analysis-presets > .analysis-save:active:not(:disabled) {
+  border-color: var(--zen-muted);
+  background: var(--zen-bg);
+}
+
+.analysis-window input[type="checkbox"] {
+  border-color: var(--zen-muted);
+  border-radius: 3px;
+}
+
+.analysis-window input[type="checkbox"]:checked {
+  border-color: var(--zen-text);
+  background: var(--zen-text);
+}
+
+.analysis-window input[type="checkbox"]::before {
+  border-color: var(--zen-bg);
+}
+
+.analysis-window input[type="color"] {
+  border-color: var(--zen-border-strong);
+  border-radius: 3px;
+  background: var(--zen-inset);
+}
+
+/* Track and thumb dimensions remain in the shared rectangular-slider rules. */
+.analysis-window input[type="range"] {
+  border-color: var(--zen-border-strong);
+}
+
+.analysis-window :is(button, input):focus-visible {
+  outline-color: var(--zen-text);
+}
+
+.analysis-window input:focus {
+  border-color: var(--zen-text);
+}
+
+.analysis-window :is(.analysis-tools, .analysis-presets, .analysis-stage-shell) {
+  scrollbar-color: var(--zen-border-strong) transparent;
+}
+
+.analysis-window :is(.analysis-tools, .analysis-presets, .analysis-stage-shell)::-webkit-scrollbar-thumb {
+  border-color: var(--zen-panel);
+  background: var(--zen-border-strong);
+}
+
+.desktop-root.is-analysis-window .native-titlebar {
+  background: var(--zen-panel);
+  color: var(--zen-muted);
+}
+
+.desktop-root.is-analysis-window .native-titlebar button {
+  border-radius: 3px;
+  background: transparent;
+  color: var(--zen-muted);
+}
+
+.desktop-root.is-analysis-window .native-titlebar button:hover:not(:disabled),
+.desktop-root.is-analysis-window .native-project-actions .always-on-top-button[aria-pressed="true"] {
+  background: var(--zen-panel-raised);
+  color: var(--zen-text);
+}
+
+.desktop-root.is-analysis-window .native-titlebar button:focus-visible {
+  outline-color: var(--zen-text);
+}

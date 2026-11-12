@@ -59,6 +59,21 @@ Windows 10 / 11（64ビット）
 208f948d784b7c1f2f59bfc4407f96614670d990775f819f0cec55a6197db349  ImageStorage-0.15.56-Setup.exe
 ```
 
+### ソースからビルドする
+
+Node.js 22.13 以降が必要です。
+
+```bash
+npm install
+npm run desktop:dev            # 開発用に起動
+npm run desktop:build:unsigned # インストーラーを作成（署名なし）
+npm test                       # テスト
+```
+
+### ライセンス
+
+ソースコードは参照用に公開しています。著作権は作者が保持しており、無断での再配布・改変版の配布はできません。
+
 動画の音楽：Roie Shpigler「Held in Motion」（Artlist）
 
 ---
@@ -117,5 +132,20 @@ Windows 10 / 11 (64-bit)
 ```
 208f948d784b7c1f2f59bfc4407f96614670d990775f819f0cec55a6197db349  ImageStorage-0.15.56-Setup.exe
 ```
+
+### Build from source
+
+Requires Node.js 22.13 or later.
+
+```bash
+npm install
+npm run desktop:dev            # run in development
+npm run desktop:build:unsigned # build the installer (unsigned)
+npm test                       # run the tests
+```
+
+### License
+
+The source code is published for reference. All rights reserved: please do not redistribute it or distribute modified versions without permission.
 
 Music in the videos: "Held in Motion" by Roie Shpigler (Artlist)

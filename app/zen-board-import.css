@@ -1,0 +1,19 @@
+.pinterest-board-import-backdrop { position:fixed; inset:0; z-index:300; display:grid; place-items:center; padding:24px; background:#0009; backdrop-filter:blur(7px); }
+.pinterest-board-import-dialog { width:min(560px,100%); max-height:calc(100vh - 48px); display:flex; flex-direction:column; background:#111214; color:#dedede; border:1px solid #303236; border-radius:4px; overflow:hidden; box-shadow:0 16px 60px #0006; font-size:12px; }
+.pinterest-board-import-dialog header { padding:16px 18px; display:flex; align-items:center; gap:12px; border-bottom:1px solid #292b2e; flex-shrink:0; }
+.pinterest-board-import-dialog h2 { flex:1; margin:0; font-size:15px; font-weight:600; }
+.pinterest-board-import-dialog header button { border:0; background:transparent; width:26px; height:26px; padding:0; color:#a5a8ad; font-size:20px; }
+.pinterest-board-import-content { padding:18px; overflow:auto; min-height:0; }
+.pinterest-board-import-content label { display:grid; gap:8px; color:#b2b4b9; }
+.pinterest-board-import-content input { padding:9px; border:1px solid #3b3d41; border-radius:3px; background:#18191b; color:#eee; font:inherit; width:100%; }
+.pinterest-board-import-hint,.pinterest-board-import-results { color:#9da0a6; font-size:12px; line-height:1.7; }
+.pinterest-board-import-results ul { padding-left:18px; overflow-wrap:anywhere; }
+.pinterest-board-import-error { color:#d9aaa0; }
+.pinterest-board-import-dialog progress { width:100%; height:8px; accent-color:#b3b3b3; }
+.pinterest-board-import-dialog footer { padding:14px 18px; display:flex; gap:8px; justify-content:flex-end; border-top:1px solid #292b2e; flex-shrink:0; }
+.pinterest-board-import-dialog button { padding:7px 12px; border:1px solid #3a3c40; border-radius:3px; background:#191a1c; color:#dedede; font:inherit; cursor:pointer; }
+.pinterest-board-import-dialog button:hover:enabled { background:#28292c; }
+.pinterest-board-import-dialog .pinterest-board-import-primary { background:#08090a; min-width:90px; }
+.pinterest-board-import-dialog button:disabled { opacity:.45; cursor:default; }
+
+.pinterest-board-import-content p { margin:8px 0; }

@@ -1,0 +1,20 @@
+.settings-page .storage-settings { display: grid; gap: 22px; max-width: 720px; }
+.settings-page .storage-settings fieldset { display: block; }
+.settings-page .storage-settings p { margin: 0 0 16px; color: var(--zen-muted); line-height: 1.65; font-size: 12px; }
+.settings-page .storage-settings label { margin-bottom: 14px; }
+.settings-page .storage-settings button { min-height: 32px; padding: 7px 12px; border: 1px solid var(--zen-border-strong); border-radius: 3px; background: var(--zen-bg); color: var(--zen-text); }
+.settings-page .storage-settings button:hover:not(:disabled) { background: var(--zen-panel-raised); border-color: var(--zen-muted); }
+.storage-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.storage-result { margin-top: 16px; overflow-wrap: anywhere; }
+.storage-result details { padding: 9px 0; border-top: 1px solid var(--zen-border); font-size: 12px; }
+.storage-result summary { cursor: pointer; }
+.storage-result ul { padding-left: 20px; }
+.storage-result li { margin: 6px 0; }
+.storage-result .storage-backups { list-style: none; padding: 0; max-height: 320px; overflow-y: auto; scrollbar-width: thin; }
+.storage-backups li { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-top: 1px solid var(--zen-border); }
+.storage-backups li > div { flex: 1; min-width: 0; }
+.storage-backups strong, .storage-backups span { display: block; font-size: 12px; }
+.storage-backups span { margin-top: 5px; color: var(--zen-muted); }
+.settings-page .storage-error { color: #e5a4a4; }
+.settings-page .storage-notice { color: var(--zen-text); }
+.storage-busy-overlay { position: absolute; inset: 0; z-index: 1000; display: grid; place-items: center; background: #08090acc; color: #d0d6e0; font-size: 14px; cursor: progress; }

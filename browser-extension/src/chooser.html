@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ImageStorage — 保存先を選択</title><link rel="stylesheet" href="chooser.css"><script src="chooser.js" type="module"></script></head>
+<body>
+  <header><img src="icons/icon48.png" alt=""><div><span>IMAGESTORAGE</span><h1>保存先を選択</h1></div></header>
+  <p id="status" role="status">保存先を読み込み中…</p>
+  <div id="connection"><button id="connect" type="button">ImageStorageを起動・再接続</button><a href="help.html" target="_blank" rel="noreferrer">初回の連携設定</a></div>
+  <button id="open-batch" type="button">このページの画像をまとめて保存…</button>
+  <button id="export-board" type="button" hidden>Pinterestボードを書き出す…</button>
+  <form id="new-list-form" hidden><label class="search"><span>リスト名</span><input id="new-list-name" type="text" maxlength="120" required placeholder="新しいリスト" autocomplete="off"></label><p>右クリックした画像を、新しいリストに保存します。</p><button id="create-list" type="submit">作成して保存</button></form>
+  <label class="search"><span>保存先を検索</span><input id="search" type="search" placeholder="リスト名・グループ名を入力" autocomplete="off"></label>
+  <main id="lists" aria-label="保存先のリスト"></main>
+  <footer><span id="hint">画像を右クリックして「ImageStorageに保存…」を選択してください。</span><button id="cancel" type="button">閉じる</button></footer>
+</body></html>

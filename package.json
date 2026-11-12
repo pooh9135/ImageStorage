@@ -1,0 +1,122 @@
+{
+  "name": "imagestorage",
+  "version": "0.15.56",
+  "description": "A desktop visual reference canvas with saved boards and sticky notes.",
+  "author": "ImageStorage",
+  "main": "desktop/main.cjs",
+  "private": true,
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "vinext dev",
+    "build": "vinext build",
+    "start": "vinext start",
+    "desktop:dev": "npm run desktop:icons && node desktop/scripts/dev.mjs",
+    "desktop:renderer": "vite --config vite.desktop.config.ts --port 5174",
+    "desktop:icons": "node desktop/scripts/create-icon.mjs",
+    "extension:build": "node browser-extension/build.mjs",
+    "extension:test": "node browser-extension/build.mjs --test && vite build --config vite.desktop.config.ts && node --test tests/browser-extension.test.mjs tests/inline-picker.test.mjs tests/batch-save.test.mjs tests/batch-picker.test.mjs tests/pinterest-board-file.test.mjs tests/pinterest-board-ui.test.mjs",
+    "extension:integration:test": "node browser-extension/build.mjs --test && vite build --config vite.desktop.config.ts && node --test tests/extension-background.test.mjs",
+    "desktop:pack": "npm run desktop:icons && npm run extension:build && vite build --config vite.desktop.config.ts && electron-builder --dir",
+    "desktop:build": "node desktop/scripts/build-signed.mjs",
+    "desktop:build:signed": "node desktop/scripts/build-signed.mjs",
+    "desktop:build:store": "node desktop/scripts/build-store.mjs",
+    "desktop:build:store:preview": "node desktop/scripts/build-store.mjs --preview",
+    "desktop:build:unsigned": "npm run desktop:icons && npm run extension:build && vite build --config vite.desktop.config.ts && electron-builder --win portable nsis --publish never -c.directories.output=work/unsigned-release",
+    "test": "npm run build && node browser-extension/build.mjs --test && vite build --config vite.desktop.config.ts && node --test tests/rendered-html.test.mjs tests/desktop-regressions.test.mjs tests/windows-signing.test.mjs tests/store-packaging.test.mjs tests/editor-debug.test.mjs tests/persistence-debug.test.mjs tests/ui-debug.test.mjs tests/list-manager-pointer-drag.test.mjs tests/diagnostics.test.mjs tests/canvas-settings.test.mjs tests/note-settings.test.mjs tests/image-drop.test.mjs tests/storage-tools.test.mjs tests/extension-bridge.test.mjs tests/browser-extension.test.mjs tests/inline-picker.test.mjs tests/batch-save.test.mjs tests/batch-picker.test.mjs tests/pinterest-board-file.test.mjs tests/pinterest-board-ui.test.mjs",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "db:generate": "drizzle-kit generate"
+  },
+  "dependencies": {
+    "drizzle-orm": "0.45.2",
+    "next": "16.2.6",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "sharp": "^0.34.4"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.37.1",
+    "@tailwindcss/postcss": "4.2.1",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.2",
+    "@vitejs/plugin-rsc": "0.5.26",
+    "@xmldom/xmldom": "0.8.15",
+    "drizzle-kit": "0.31.10",
+    "electron": "45.2.1",
+    "electron-builder": "26.0.12",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.6",
+    "react-server-dom-webpack": "19.2.6",
+    "tailwindcss": "4.2.1",
+    "typescript": "5.9.3",
+    "vinext": "0.0.50",
+    "vite": "8.0.13",
+    "wrangler": "4.92.0"
+  },
+  "build": {
+    "appId": "com.imagestorage.desktop",
+    "productName": "ImageStorage",
+    "copyright": "Copyright © 2026 ImageStorage",
+    "asar": true,
+    "compression": "normal",
+    "asarUnpack": [
+      "node_modules/sharp/**/*",
+      "node_modules/@img/**/*"
+    ],
+    "files": [
+      "desktop-dist/**/*",
+      "desktop/main.cjs",
+      "desktop/diagnostics.cjs",
+      "desktop/storage-tools.cjs",
+      "desktop/extension-bridge.cjs",
+      "desktop/pinterest-board-file.cjs",
+      "desktop/preload.cjs",
+      "desktop/assets/icon.png",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release-imagestorage-0.15.56"
+    },
+    "extraFiles": [
+      {
+        "from": "browser-extension/dist",
+        "to": "browser-connector",
+        "filter": ["**/*", "!*.xpi", "!*.zip"]
+      }
+    ],
+    "win": {
+      "icon": "desktop/assets/icon.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "portable": {
+      "artifactName": "ImageStorage-${version}-Portable.${ext}",
+      "unpackDirName": true
+    },
+    "nsis": {
+      "artifactName": "ImageStorage-${version}-Setup.${ext}",
+      "include": "desktop/scripts/installer.nsh",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "type": "module"
+}

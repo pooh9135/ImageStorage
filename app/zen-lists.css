@@ -1,0 +1,275 @@
+/* Saved-list cards and the explicit batch editor share the sidebar surfaces. */
+.app-shell > .sidebar .board-row,
+.app-shell > .sidebar .board-row.has-header,
+.app-shell > .sidebar .sidebar-settings-row {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 0;
+  height: auto;
+  aspect-ratio: 2.1 / 1;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #ffffff12;
+  border-radius: 4px;
+  background: #292929;
+  cursor: default;
+}
+.app-shell > .sidebar :is(.board-row, .sidebar-settings-row).active { border-color: #b99ac88c; background: #363239; }
+.app-shell > .sidebar :is(.board-row, .sidebar-settings-row):hover { border-color: #ffffff35; }
+.app-shell > .sidebar :is(.board-row, .sidebar-settings-row).active:hover { border-color: #b99ac8b3; }
+.app-shell > .sidebar :is(.board-row, .sidebar-settings-row) .board-button {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  cursor: default;
+}
+.app-shell > .sidebar :is(.board-row, .sidebar-settings-row) .board-button::after {
+  position: absolute;
+  inset: 28% 0 0;
+  z-index: 1;
+  content: "";
+  background: linear-gradient(transparent, #0009);
+  pointer-events: none;
+}
+.app-shell > .sidebar :is(.board-row, .sidebar-settings-row) .board-name-label {
+  position: absolute;
+  z-index: 2;
+  inset: auto 9px 8px;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: #f4f4f4;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  text-align: left;
+  text-shadow: 0 1px 3px #000b;
+  pointer-events: none;
+}
+.app-shell > .sidebar :is(.board-row, .sidebar-settings-row) .mini-preview,
+.app-shell > .sidebar .board-row.has-header > .mini-preview.has-header {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  gap: 2px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  border: 0;
+  border-radius: inherit;
+  background: #292929;
+  pointer-events: none;
+}
+.app-shell > .sidebar :is(.board-row, .sidebar-settings-row) .mini-preview.empty { background: linear-gradient(145deg, #333, #282828); }
+.app-shell > .sidebar .board-row .mini-tile,
+.app-shell > .sidebar .board-row .mini-tile:not(:first-child) {
+  display: block;
+  grid-column: auto;
+  grid-row: auto;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.app-shell > .sidebar .board-row .mini-tile:only-child { grid-column: 1 / -1; grid-row: 1 / -1; }
+.app-shell > .sidebar .board-row .mini-tile:first-child:nth-last-child(2),
+.app-shell > .sidebar .board-row .mini-tile:nth-child(2):last-child { grid-row: 1 / -1; }
+.app-shell > .sidebar .board-row .mini-tile img { width: 100%; height: 100%; object-fit: cover; }
+.app-shell > .sidebar .board-row .mini-preview-more { position: absolute; top: 5px; right: 5px; bottom: auto; z-index: 2; }
+/* Show the whole saved-list card as the target without opening that list. */
+.app-shell > .sidebar .board-row.asset-drop {
+  border-color: #d0d6e0;
+  outline: 2px solid #8a8f98;
+  outline-offset: -2px;
+  box-shadow: none;
+}
+.app-shell > .sidebar .board-row.asset-drop::after {
+  content: attr(data-drop-label);
+  top: 6px;
+  right: 6px;
+  width: auto;
+  height: auto;
+  max-width: calc(100% - 12px);
+  padding: 4px 7px;
+  border: 1px solid #383b3f;
+  border-radius: 3px;
+  background: #0f1011ee;
+  color: #d0d6e0;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.3;
+  pointer-events: none;
+}
+
+.app-shell > .sidebar .sidebar-settings-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: #0003;
+  color: #d0d6e0;
+  cursor: default;
+}
+.app-shell > .sidebar .sidebar-settings-close:hover { background: #ffffff18; color: #fff; }
+.sidebar-settings-close .ui-icon { width: 13px; height: 13px; }
+
+.list-manager-backdrop {
+  position: fixed;
+  z-index: 500;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #0009;
+  backdrop-filter: blur(4px);
+}
+/* Keep list management and its deletion confirmation in the shared dark palette. */
+.app-shell :is(.list-manager-dialog, .confirmation-dialog) {
+  --zen-bg: #08090a;
+  --zen-panel: #0f1011;
+  --zen-panel-raised: #161718;
+  --zen-border: #23252a;
+  --zen-border-strong: #383b3f;
+  --zen-text: #d0d6e0;
+  --zen-muted: #8a8f98;
+  --zen-accent: #d0d6e0;
+  border-color: var(--zen-border-strong);
+  border-radius: 4px;
+  background: var(--zen-bg);
+  color: var(--zen-text);
+  box-shadow: 0 20px 60px #0005;
+}
+.list-manager-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(820px, 100%);
+  max-height: calc(100dvh - 48px);
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--zen-border-strong);
+  border-radius: 4px;
+  background: var(--zen-panel);
+  color: var(--zen-text);
+  box-shadow: 0 24px 80px #0006;
+}
+.list-manager-dialog > header,
+.list-manager-dialog > footer { display: flex; flex: 0 0 auto; align-items: center; gap: 12px; padding: 14px 18px; background: var(--zen-panel); }
+.list-manager-dialog > header { justify-content: space-between; border-bottom: 1px solid var(--zen-border); }
+.list-manager-dialog h2 { margin: 0; color: #fff; font-size: 16px; font-weight: 600; }
+.list-manager-dialog > p { flex: 0 0 auto; margin: 14px 18px 6px; color: var(--zen-muted); font-size: 12px; line-height: 1.6; }
+.list-manager-toolbar { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 18px 12px; color: var(--zen-muted); font-size: 12px; }
+.list-manager-dialog > .list-manager-error { margin: 0 18px 12px; color: #d8aaa7; }
+.list-manager-content { display: grid; gap: 10px; min-height: 0; padding: 6px 18px 18px; overflow: auto; }
+.list-manager-row { display: grid; grid-template-columns: 144px minmax(0, 1fr) 28px; align-items: start; gap: 14px; min-width: 0; padding: 12px; border: 1px solid var(--zen-border); border-radius: 3px; background: var(--zen-panel); }
+.list-manager-row.is-current { border-color: var(--zen-border-strong); }
+.list-manager-row { position: relative; cursor: grab; touch-action: none; user-select: none; }
+.list-manager-row :is(input, textarea) { user-select: text; cursor: text; }
+.list-manager-content.is-reordering,
+.list-manager-content.is-reordering * { cursor: grabbing !important; }
+.list-manager-row.is-dragging { opacity: .45; cursor: grabbing; }
+.list-manager-drop-indicator { position: fixed; z-index: 10001; top: 0; left: 0; height: 2px; background: #d0d6e0; pointer-events: none; }
+.list-manager-drag-grip { display: inline-flex; color: var(--zen-muted); }
+.list-manager-drag-grip .ui-icon { width: 14px; height: 14px; transform: rotate(90deg); pointer-events: none; }
+.list-manager-preview { min-width: 0; padding-top: 3px; }
+.list-manager-dialog .list-manager-preview > button { position: relative; display: block; width: 100%; min-height: 0; aspect-ratio: 2.1 / 1; padding: 0; overflow: hidden; border: 1px solid var(--zen-border-strong); border-radius: 3px; background: var(--zen-panel-raised); }
+.list-manager-preview > span { display: block; margin-top: 6px; color: var(--zen-muted); font-size: 10px; line-height: 1.5; overflow-wrap: anywhere; }
+.list-manager-dialog .list-manager-preview > .list-manager-preview-button { cursor: grab; }
+.list-manager-dialog .list-manager-preview > .list-manager-preview-button:active { cursor: grabbing; }
+.list-manager-preview .mini-preview { position: absolute; inset: 0; display: grid; width: 100%; height: 100%; padding: 0; gap: 2px; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); overflow: hidden; border: 0; border-radius: 0; background: var(--zen-panel-raised); pointer-events: none; }
+.list-manager-preview .mini-preview.empty { background: linear-gradient(145deg, #292b2e, #161718); }
+.list-manager-preview .mini-tile,
+.list-manager-preview .mini-tile:first-child,
+.list-manager-preview .mini-tile:nth-child(n + 4) { display: block; min-width: 0; min-height: 0; grid-column: auto; grid-row: auto; overflow: hidden; }
+.list-manager-preview .mini-tile:only-child { grid-column: 1 / -1; grid-row: 1 / -1; }
+.list-manager-preview .mini-tile:first-child:nth-last-child(2),
+.list-manager-preview .mini-tile:nth-child(2):last-child { grid-row: 1 / -1; }
+.list-manager-preview .mini-tile img { width: 100%; height: 100%; object-fit: cover; }
+.list-manager-preview .mini-header-image { position: absolute; max-width: none; max-height: none; object-fit: fill; }
+.list-manager-preview .mini-preview-more { position: absolute; top: 4px; right: 4px; bottom: auto; }
+.list-manager-preview-edit { position: absolute; inset: 0; display: grid; place-items: center; background: #0008; color: #fff; opacity: 0; pointer-events: none; }
+.list-manager-preview > button:is(:hover, :focus-visible) .list-manager-preview-edit { opacity: 1; }
+.list-manager-row-body { min-width: 0; }
+.list-manager-row-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-bottom: 7px; color: var(--zen-muted); font-size: 11px; line-height: 16px; }
+.list-manager-badge { padding: 0 5px; border: 1px solid var(--zen-border-strong); border-radius: 2px; color: var(--zen-text); font-size: 10px; }
+.list-manager-fields { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 10px; }
+.list-manager-fields > label { display: grid; min-width: 0; gap: 5px; }
+.list-manager-fields > label > span { color: var(--zen-muted); font-size: 11px; }
+.list-manager-row :is(.list-manager-name, .list-manager-group) { width: 100%; min-width: 0; height: 32px; padding: 0 8px; border: 1px solid var(--zen-border-strong); border-radius: 3px; background: var(--zen-panel-raised); color: var(--zen-text); caret-color: var(--zen-text); font: inherit; font-size: 12px; }
+.list-manager-row input::placeholder { color: var(--zen-muted); }
+.list-manager-row input:focus { border-color: var(--zen-text); }
+.list-manager-dialog button { flex: 0 0 auto; min-height: 30px; padding: 0 12px; border: 1px solid var(--zen-border-strong); border-radius: 3px; background: var(--zen-panel); color: var(--zen-text); font-size: 12px; }
+.list-manager-dialog .list-manager-add,
+.list-manager-image-actions > button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.list-manager-image-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.list-manager-dialog .list-manager-image-actions > button { min-height: 28px; padding: 0 8px; font-size: 11px; }
+.list-manager-image-actions .ui-icon { width: 13px; height: 13px; }
+.list-manager-row-actions { display: grid; gap: 5px; padding-top: 1px; }
+.list-manager-dialog .list-manager-row-actions > button { display: grid; place-items: center; width: 28px; min-height: 28px; padding: 0; border-color: transparent; background: transparent; }
+.list-manager-row-actions .ui-icon { width: 15px; height: 15px; }
+.list-manager-dialog button:hover:not(:disabled) { border-color: var(--zen-muted); background: var(--zen-panel-raised); }
+.list-manager-dialog .list-manager-close { display: grid; place-items: center; width: 28px; min-height: 28px; padding: 0; border: 0; background: transparent; color: var(--zen-muted); }
+.list-manager-dialog .list-manager-delete { color: #d8aaa7; }
+.list-manager-dialog > footer { justify-content: flex-end; border-top: 1px solid var(--zen-border); }
+.list-manager-dialog .list-manager-save { min-width: 72px; background: var(--zen-bg); }
+.list-manager-dialog .list-manager-save:active:not(:disabled) { background: var(--zen-bg); }
+.list-manager-empty { padding: 16px 0; color: var(--zen-muted); font-size: 13px; line-height: 1.6; }
+.list-manager-content { scrollbar-width: thin; scrollbar-color: var(--zen-border-strong) transparent; }
+.list-manager-content { overscroll-behavior: contain; overflow-anchor: none; scrollbar-gutter: stable; }
+.list-manager-drag-ghost {
+  position: fixed; z-index: 10000; top: 0; left: 0; width: 144px;
+  overflow: hidden; padding: 4px; border: 1px solid #8a8f98; border-radius: 3px;
+  background: #0f1011; color: #d0d6e0; box-shadow: 0 8px 24px #0006;
+  pointer-events: none; user-select: none; will-change: transform;
+}
+.list-manager-drag-ghost > .mini-preview {
+  position: relative; display: grid; width: 100%; height: auto; aspect-ratio: 2.1 / 1;
+  min-height: 0; padding: 0; gap: 2px; grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr)); overflow: hidden; border: 0; border-radius: 2px; background: #161718;
+}
+.list-manager-drag-ghost .mini-tile,
+.list-manager-drag-ghost .mini-tile:nth-child(n) { display: block; min-width: 0; min-height: 0; grid-column: auto; grid-row: auto; overflow: hidden; }
+.list-manager-drag-ghost .mini-tile:only-child { grid-column: 1 / -1; grid-row: 1 / -1; }
+.list-manager-drag-ghost .mini-tile:first-child:nth-last-child(2),
+.list-manager-drag-ghost .mini-tile:nth-child(2):last-child { grid-row: 1 / -1; }
+.list-manager-drag-ghost .mini-tile img { width: 100%; height: 100%; object-fit: cover; }
+.list-manager-drag-ghost .mini-header-image { position: absolute; max-width: none; max-height: none; object-fit: fill; }
+.list-manager-drag-ghost > span:last-child { display: block; overflow: hidden; padding: 5px 3px 2px; font-size: 11px; line-height: 1.4; white-space: nowrap; text-overflow: ellipsis; }
+.app-shell :is(.list-manager-dialog, .confirmation-dialog) :is(button, input):focus-visible { outline: 1px solid var(--zen-text); outline-offset: 2px; }
+.app-shell .confirmation-dialog button { border-color: var(--zen-border-strong); border-radius: 3px; background: var(--zen-panel); color: var(--zen-text); }
+.app-shell .confirmation-dialog button:hover:not(:disabled) { border-color: var(--zen-muted); background: var(--zen-panel-raised); }
+.app-shell .confirmation-dialog button.danger { border-color: #654344; background: #25191a; color: #e0b5b2; }
+.app-shell .confirmation-dialog button.danger:hover:not(:disabled) { border-color: #956463; background: #342123; }
+@media (max-width: 540px) {
+  .list-manager-backdrop { padding: 12px; }
+  .list-manager-dialog { max-height: calc(100dvh - 24px); }
+  .list-manager-content { padding-inline: 12px; }
+  .list-manager-toolbar { padding-inline: 12px; }
+  .list-manager-row { grid-template-columns: 88px minmax(0, 1fr) 26px; gap: 10px; padding: 10px; }
+  .list-manager-fields { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .list-manager-dialog .list-manager-row-actions > button { width: 26px; }
+}
+@media (max-width: 390px) {
+  .list-manager-row { grid-template-columns: minmax(0, 1fr) 26px; }
+  .list-manager-preview { grid-column: 1; max-width: 144px; }
+  .list-manager-row-body { grid-column: 1; grid-row: 2; }
+  .list-manager-row-actions { grid-column: 2; grid-row: 1 / 3; }
+}

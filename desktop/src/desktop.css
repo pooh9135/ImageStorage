@@ -1,0 +1,227 @@
+.desktop-root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--zen-bg, #202020);
+}
+
+.desktop-root .app-shell {
+  height: 100vh;
+}
+
+/* DWM draws the desktop blur; only the surrounding app chrome reveals it. */
+html.native-backdrop-acrylic,
+html.native-backdrop-acrylic body,
+html.native-backdrop-acrylic #root,
+html.native-backdrop-acrylic .desktop-root {
+  background: transparent;
+}
+
+html.native-backdrop-acrylic .desktop-root .app-shell {
+  background: rgba(22, 22, 22, 0.42);
+}
+
+html.native-backdrop-acrylic .desktop-root .app-shell.is-sidebar-collapsed > .sidebar.is-peeking {
+  background: rgba(24, 24, 24, 0.86);
+  backdrop-filter: blur(16px);
+}
+
+/* The pane below already supplies its DWM/peek tint and blur. Reveal that
+   single layer without adding a second tint or blur to the menu. */
+html.native-backdrop-acrylic .chrome-menu-layer > .chrome-menu {
+  background: transparent;
+  backdrop-filter: none;
+}
+
+html.native-backdrop-acrylic .app-shell:has(> .chrome-menu-layer) > .sidebar > .board-list {
+  /* ChromeMenu clips only its covered strip; the remaining cards stay visible. */
+  clip-path: inset(var(--chrome-menu-clip-top, 0px) 0 var(--chrome-menu-clip-bottom, 0px) 0);
+}
+
+/* Drag only dedicated blank space, so scrolling and 30ms list reordering keep
+   receiving pointer events. The list itself retains its full flexible height. */
+.desktop-root .sidebar > .board-list {
+  flex: 1;
+  min-height: 0;
+  app-region: no-drag;
+  -webkit-app-region: no-drag;
+}
+
+.desktop-root .sidebar .sidebar-window-drag-space {
+  flex: 1 0 24px;
+  min-height: 24px;
+  align-self: stretch;
+}
+
+.desktop-root .sidebar .sidebar-navigation-spacer {
+  align-self: stretch;
+}
+
+.desktop-root .sidebar :is(.sidebar-window-drag-space, .sidebar-navigation-spacer) {
+  user-select: none;
+  app-region: drag;
+  -webkit-app-region: drag;
+}
+
+/* Native drag areas stop pointer events. A temporary sidebar must keep them
+   across its whole surface so entering empty space cannot dismiss it. */
+.desktop-root .app-shell.is-sidebar-collapsed > .sidebar.is-peeking
+  :is(.sidebar-window-drag-space, .sidebar-navigation-spacer) {
+  app-region: no-drag;
+  -webkit-app-region: no-drag;
+}
+
+.desktop-root .sidebar :is(button, input, select, textarea, a, .board-row, .board-group-heading, .workspace-switches) {
+  app-region: no-drag;
+  -webkit-app-region: no-drag;
+}
+
+.desktop-root:has(.app-shell[data-modal-open="true"], .chrome-menu-layer, .item-context-menu, .image-arrange-menu, [role="dialog"])
+  :is(.sidebar-window-drag-space, .sidebar-navigation-spacer, .native-titlebar-drag) {
+  app-region: no-drag;
+  -webkit-app-region: no-drag;
+}
+
+/* Stable overlay bounds; only the top eight pixels are draggable while hidden. */
+.native-titlebar {
+  position: fixed;
+  z-index: 200;
+  top: 0;
+  right: 0;
+  left: 206px;
+  display: grid;
+  height: 32px;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: stretch;
+  border: 0;
+  background: var(--zen-bg, #202020);
+  color: var(--zen-muted, #b0b0b0);
+  opacity: 0;
+  pointer-events: none;
+  transform: none;
+  transition: opacity 120ms ease;
+  user-select: none;
+  app-region: no-drag;
+  -webkit-app-region: no-drag;
+}
+
+.desktop-root:has(.app-shell.is-sidebar-collapsed) .native-titlebar {
+  left: 8px;
+}
+
+.desktop-root.is-analysis-window .native-titlebar {
+  left: 0;
+}
+
+.native-titlebar.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.native-titlebar-drag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 8px;
+  pointer-events: auto;
+  app-region: drag;
+  -webkit-app-region: drag;
+}
+
+.native-titlebar.is-visible .native-titlebar-drag {
+  height: 100%;
+}
+
+.native-project-actions,
+.native-window-controls {
+  position: relative;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  app-region: no-drag;
+  -webkit-app-region: no-drag;
+}
+
+.native-titlebar.is-visible .native-project-actions,
+.native-titlebar.is-visible .native-window-controls {
+  pointer-events: auto;
+}
+
+.native-project-actions {
+  grid-column: 2;
+  padding-right: 5px;
+}
+
+.native-window-controls {
+  grid-column: 3;
+}
+
+.native-project-actions button,
+.native-window-controls button {
+  display: grid;
+  place-items: center;
+  height: 28px;
+  min-width: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--zen-muted, #b0b0b0);
+  cursor: default;
+  transition: background 120ms ease, color 120ms ease;
+  app-region: no-drag;
+  -webkit-app-region: no-drag;
+}
+
+.native-project-actions button:hover,
+.native-window-controls button:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--zen-text, #ededed);
+}
+
+.native-project-actions .always-on-top-button[aria-pressed="true"] {
+  background: rgba(185, 154, 200, 0.14);
+  color: var(--zen-accent, #b99ac8);
+}
+
+.native-window-controls button {
+  width: 44px;
+  height: 32px;
+  border-radius: 0;
+}
+
+.native-titlebar .ui-icon {
+  width: 14px;
+  height: 14px;
+  stroke-width: 1.6;
+}
+
+.native-project-actions .ui-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.native-window-controls .native-close:hover {
+  background: #bd4141;
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .native-titlebar {
+    left: 166px;
+  }
+}
+
+@media (max-width: 360px) {
+  .native-window-controls button {
+    width: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .native-titlebar,
+  .native-titlebar button {
+    transition: none;
+  }
+}

@@ -1,0 +1,70 @@
+/* Notes use neutral surfaces without a stored-color marker. */
+.app-shell .canvas-item.note {
+  --note-stroke: calc(1px * var(--note-scale, 1));
+  border: 0;
+  border-radius: calc(4px * var(--note-scale, 1));
+  background: #0f1011;
+  box-shadow: none;
+  filter: none;
+}
+
+.app-shell .canvas-item.note textarea {
+  border: 0;
+  border-radius: inherit;
+  outline: none;
+  background: #0f1011;
+  color: #d0d6e0;
+  caret-color: #d0d6e0;
+  line-height: 1.45;
+  clip-path: none;
+  box-shadow: none;
+}
+
+/* Paint the border above the header without changing measured text dimensions.
+   This replaces the old folded-paper pseudo-element. */
+.app-shell .canvas-item.note::before {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: auto;
+  height: auto;
+  border: var(--note-stroke) solid #23252a;
+  border-radius: inherit;
+  background: none;
+  box-shadow: none;
+  content: "";
+  pointer-events: none;
+}
+
+.app-shell .canvas-item.note:hover::before,
+.app-shell .canvas-item.note:focus-within::before {
+  border-color: #383b3f;
+}
+
+.app-shell .canvas-item.note.selected::after {
+  border-width: var(--note-stroke);
+  border-color: #697280;
+  border-radius: inherit;
+  box-shadow: none;
+}
+
+.app-shell .canvas-item.note .note-drag-handle {
+  height: calc(22px * var(--note-scale, 1));
+  gap: calc(3px * var(--note-scale, 1));
+  border: 0;
+  border-radius: calc(4px * var(--note-scale, 1)) calc(4px * var(--note-scale, 1)) 0 0;
+  /* The historical handle background is also marked important. */
+  background: #161718 !important;
+}
+
+.app-shell .canvas-item.note .note-drag-handle span {
+  width: calc(2px * var(--note-scale, 1));
+  height: calc(2px * var(--note-scale, 1));
+  background: #9da7b5;
+  opacity: 0;
+}
+
+.app-shell .canvas-item.note:hover .note-drag-handle span,
+.app-shell .canvas-item.note:focus-within .note-drag-handle span {
+  opacity: 0.65;
+}

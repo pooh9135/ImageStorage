@@ -1,0 +1,102 @@
+/* Use the same restrained surfaces and controls as settings and the library. */
+.app-shell .header-image-editor {
+  --zen-bg: #08090a;
+  --zen-panel: #0f1011;
+  --zen-panel-raised: #161718;
+  --zen-inset: #08090a;
+  --zen-border: #23252a;
+  --zen-border-strong: #383b3f;
+  --zen-text: #d0d6e0;
+  --zen-muted: #8a8f98;
+  --zen-accent: #d0d6e0;
+  border-color: var(--zen-border-strong);
+  border-radius: 4px;
+  background: var(--zen-bg);
+  color: var(--zen-text);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.32);
+}
+
+.header-image-editor > header,
+.header-image-editor .header-image-editor-controls {
+  border-color: var(--zen-border);
+  background: var(--zen-panel);
+}
+
+.header-image-editor > header h2 {
+  color: #ffffff;
+}
+
+.header-image-editor .header-image-editor-content,
+.header-image-editor .header-image-editor-preview {
+  background: var(--zen-bg);
+}
+
+/* Keep the crop geometry and mask intact; only the frame color changes. */
+.header-image-editor .header-image-editor-crop-window {
+  border-color: var(--zen-text);
+}
+
+.header-image-editor .header-image-editor-controls label {
+  color: var(--zen-muted);
+}
+
+.header-image-editor .header-image-editor-controls label b {
+  color: var(--zen-text);
+}
+
+.header-image-editor .header-image-editor-controls input[type="range"] {
+  border-color: var(--zen-border-strong);
+}
+
+.header-image-editor .header-image-editor-actions button,
+.header-image-editor .header-image-editor-actions .header-image-remove {
+  border-color: var(--zen-border-strong);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--zen-text);
+}
+
+.header-image-editor .header-image-editor-actions button:hover:not(:disabled) {
+  border-color: var(--zen-muted);
+  background: var(--zen-panel-raised);
+  color: var(--zen-text);
+}
+
+.header-image-editor > header > .header-image-apply {
+  border-color: #e4f222;
+  border-radius: 3px;
+  background: #e4f222;
+  color: #08090a;
+}
+
+.header-image-editor > header > .header-image-apply:hover:not(:disabled) {
+  border-color: #eff764;
+  background: #eff764;
+  color: #08090a;
+}
+
+.header-image-editor > header > .header-image-apply:active:not(:disabled) {
+  border-color: #cdd91f;
+  background: #cdd91f;
+}
+
+.header-image-editor :is(button, input):focus-visible,
+.header-image-editor .header-image-editor-actions button:focus-visible,
+.header-image-editor > header > .header-image-apply:focus-visible {
+  outline-color: var(--zen-text);
+}
+
+.header-image-editor input:focus {
+  border-color: var(--zen-text);
+}
+
+.header-image-editor-actions .header-image-manager-cancel {
+  grid-column: 1 / -1;
+}
+
+.header-image-editor-controls .header-image-error {
+  margin: 0;
+  color: #d8aaa7;
+  font-size: 12px;
+  line-height: 1.5;
+}

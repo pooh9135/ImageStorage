@@ -1,0 +1,86 @@
+/* Match the settings reference palette within Search and organize. */
+.app-shell .library-dialog {
+  --zen-bg: #08090a;
+  --zen-panel: #0f1011;
+  --zen-panel-raised: #161718;
+  --zen-inset: #08090a;
+  --zen-border: #23252a;
+  --zen-border-strong: #383b3f;
+  --zen-text: #d0d6e0;
+  --zen-muted: #8a8f98;
+  --zen-accent: #d0d6e0;
+  border-color: var(--zen-border-strong);
+  border-radius: 4px;
+  background: var(--zen-bg);
+  color: var(--zen-text);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.32);
+}
+
+.library-dialog > header,
+.library-dialog .library-categories,
+.library-dialog .library-search-area {
+  background: var(--zen-panel);
+}
+
+.library-dialog > header h2 {
+  color: #ffffff;
+}
+
+.library-dialog .library-categories button:hover,
+.library-dialog .library-categories button.active {
+  background: var(--zen-panel-raised);
+  color: var(--zen-text);
+}
+
+.library-dialog .library-categories button.active::before {
+  border-radius: 0;
+  background: var(--zen-text);
+}
+
+.library-dialog .library-search-input {
+  border-color: var(--zen-border-strong);
+  background: var(--zen-panel-raised);
+  caret-color: var(--zen-text);
+}
+
+.library-dialog .library-search-input::placeholder {
+  color: var(--zen-muted);
+}
+
+.library-dialog .library-search-input:focus {
+  border-color: var(--zen-text);
+}
+
+.library-dialog .library-search-input:focus-visible {
+  outline: 1px solid var(--zen-text);
+  outline-offset: -1px;
+}
+
+.library-dialog :is(.library-filter-row, .library-tag-row) button:hover,
+.library-dialog :is(.library-filter-row, .library-tag-row) button.active {
+  border-color: var(--zen-border-strong);
+  background: var(--zen-panel-raised);
+  color: var(--zen-text);
+}
+
+.library-dialog .library-result {
+  border-radius: 4px;
+  color: var(--zen-text);
+}
+
+.library-dialog .library-result:hover {
+  border-color: var(--zen-border-strong);
+  background: var(--zen-panel-raised);
+}
+
+.library-dialog .library-result-tags i {
+  color: #e4f222;
+}
+
+.library-dialog :is(button, input):focus-visible {
+  outline-color: var(--zen-text);
+}
+
+.library-dialog :is(.library-results, .library-tag-row, .library-categories) {
+  scrollbar-color: var(--zen-border-strong) transparent;
+}

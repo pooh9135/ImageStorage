@@ -1,0 +1,77 @@
+/* Optional canvas layout. Keep saved world coordinates and the normal layout
+   unchanged; move the shell's inset into the pinned sidebar itself. */
+.app-shell.is-edge-to-edge,
+.desktop-root .app-shell.is-edge-to-edge {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  grid-template-columns: calc(var(--active-sidebar-width) + 8px) minmax(0, 1fr);
+  box-shadow: none;
+}
+
+.app-shell.is-edge-to-edge:not(.is-sidebar-collapsed) > .sidebar {
+  margin: 0;
+  padding: 8px;
+}
+
+.app-shell.is-edge-to-edge > .workspace,
+.app-shell.is-edge-to-edge > .workspace > .canvas {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  clip-path: none;
+  box-shadow: none;
+}
+
+.app-shell.is-edge-to-edge > .workspace::after {
+  display: none;
+}
+
+.app-shell.is-edge-to-edge.is-sidebar-collapsed {
+  --canvas-sidebar-offset: calc(var(--active-sidebar-width) + 8px);
+  grid-template-columns: 0 minmax(0, 1fr);
+}
+
+/* A hover preview remains an inset overlay and never reserves canvas space. */
+.app-shell.is-edge-to-edge.is-sidebar-collapsed > .sidebar.is-peeking {
+  top: 8px;
+  left: 8px;
+  width: calc(var(--active-sidebar-width) + 8px);
+  height: calc(100% - 16px);
+  margin: 0;
+  padding: 8px;
+}
+
+/* Settings keep their form spacing while sharing the unframed main pane. */
+.app-shell.is-edge-to-edge > .settings-page.settings-dialog {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* The titlebar is a sibling of the shell, so its left edge follows the same
+   sidebar widths explicitly. Its existing hover reveal and controls remain. */
+.desktop-root:has(.app-shell.is-edge-to-edge) .native-titlebar {
+  left: 206px;
+}
+
+.desktop-root:has(.app-shell.is-edge-to-edge.is-sidebar-collapsed) .native-titlebar {
+  left: 0;
+}
+
+@media (max-width: 600px) {
+  .desktop-root:has(.app-shell.is-edge-to-edge:not(.is-sidebar-collapsed)) .native-titlebar {
+    left: 166px;
+  }
+}
+
+/* The revealed window caption must not intercept the temporary sidebar. */
+.desktop-root:has(> .app-shell.is-sidebar-collapsed.is-sidebar-peeking) > .native-titlebar {
+  left: 214px;
+}
+
+@media (max-width: 600px) {
+  .desktop-root:has(> .app-shell.is-sidebar-collapsed.is-sidebar-peeking) > .native-titlebar {
+    left: 174px;
+  }
+}
