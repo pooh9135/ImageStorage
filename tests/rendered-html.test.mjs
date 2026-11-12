@@ -385,7 +385,7 @@ test("keeps desktop persistence and distribution wiring in place", async () => {
   assert.match(packageJson, /"target": "nsis"/);
   assert.match(packageJson, /ImageStorage-\$\{version\}-Setup/);
   assert.match(desktopHtml, /rel="icon"[\s\S]*?imagestorage-logo\.png/);
-  assert.match(iconGenerator, /imagestorage-monochrome-logo-v1\.png/);
+  assert.match(iconGenerator, /imagestorage-hand-code-logo\.png/);
   assert.match(iconGenerator, /const iconSizes = \[16, 24, 32, 48, 64, 128, 256\]/);
   assert.match(page, /className="settings-dialog settings-page"/);
   assert.match(page, /openImageAnalysis/);

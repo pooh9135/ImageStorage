@@ -262,6 +262,8 @@ export function ImageAnalysisWindow() {
   const undoStackRef = useRef<ImageAnalysisState[]>([]);
   const redoStackRef = useRef<ImageAnalysisState[]>([]);
   const initializedRef = useRef(false);
+  // What the board already has; the window counts as unsaved while the analysis differs from it.
+  const savedAnalysisRef = useRef(JSON.stringify(EMPTY_ANALYSIS));
   const desktop = window.museboardDesktop;
   const language = localStorage.getItem("imagestorage-language") || "en";
   const t = (en: string, ja: string, zh: string, ko: string) => language === "ja" ? ja : language === "zh" ? zh : language === "ko" ? ko : en;
@@ -318,6 +320,7 @@ export function ImageAnalysisWindow() {
         strokes: nextPayload.analysis?.strokes ?? [],
       };
       analysisRef.current = nextAnalysis;
+      savedAnalysisRef.current = JSON.stringify(nextAnalysis);
       setAnalysis(nextAnalysis);
       window.requestAnimationFrame(() => { initializedRef.current = true; });
     };
@@ -456,12 +459,21 @@ export function ImageAnalysisWindow() {
     updateAnalysis({ strokes: [], gridVisible: false, preset: "none" });
   };
 
-  const saveAnalysis = () => {
+  const saveAnalysis = useCallback(() => {
     if (!payload) return;
     stopActiveStroke();
     desktop?.updateImageAnalysis?.({ itemId: payload.itemId, analysis: analysisRef.current });
+    savedAnalysisRef.current = JSON.stringify(analysisRef.current);
+    desktop?.setImageAnalysisDirty?.(false);
     window.setTimeout(() => desktop?.close(), 80);
-  };
+  }, [desktop, payload, stopActiveStroke]);
+
+  // Tell the main process whether closing now would lose drawing, so it can ask first.
+  useEffect(() => {
+    desktop?.setImageAnalysisDirty?.(JSON.stringify(analysis) !== savedAnalysisRef.current);
+  }, [analysis, desktop]);
+
+  useEffect(() => desktop?.onImageAnalysisSaveRequest?.(saveAnalysis), [desktop, saveAnalysis]);
 
   if (!payload) return <div className="analysis-loading">{t("Loading image…", "画像を読み込み中…", "正在加载图像…", "이미지를 불러오는 중…")}</div>;
 

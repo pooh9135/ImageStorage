@@ -39,7 +39,7 @@ void (async () => {
     const pins = [1, 2, 3].map(index => ({ pinUrl: `https://www.pinterest.com/pin/${index}/`, imageUrl: `https://i.pinimg.com/236x/aa/bb/cc/${String(index).repeat(32)}.png`, title: `資料 ${index}`, width: 100, height: 200 }));
     fs.writeFileSync(file, JSON.stringify({ format: "imagestorage-pinterest-board", version: 1, board: { name: "ファイルからの資料", url: "https://www.pinterest.com/tester/references/" }, pins: [...pins, { ...pins[0], imageUrl: pins[0].imageUrl.replace("236x", "originals") }] }));
     fs.writeFileSync(invalid, "invalid JSON"); selectedFile = invalid;
-    dialog.showOpenDialog = async (_parent, options) => { assert.equal(options.title, "ボードファイルを読み込む"); return { canceled: false, filePaths: [selectedFile] }; };
+    dialog.showOpenDialog = async (_parent, options) => { assert.match(options.title, /^(Import board file|ボードファイルを読み込む|导入图板文件|보드 파일 가져오기)$/); return { canceled: false, filePaths: [selectedFile] }; };
     global.fetch = async value => {
       const url = String(value), id = url.match(/\/([123])\1{31}\.png$/)?.[1];
       if (!id || !url.startsWith("https://i.pinimg.com/")) throw new Error("Unexpected network request");

@@ -5,13 +5,29 @@ function emitSaveRequest() {
   window.dispatchEvent(new CustomEvent("museboard:save-request"));
 }
 
+const storedLanguage = () => localStorage.getItem("imagestorage-language") || "en";
+
+// The app writes the chosen language to <html lang> on every change, so follow it
+// instead of reading storage once; otherwise these labels keep the old language until restart.
+function useUiLanguage() {
+  const [language, setLanguage] = useState(() => document.documentElement.lang || storedLanguage());
+  useEffect(() => {
+    const sync = () => setLanguage(document.documentElement.lang || storedLanguage());
+    const observer = new MutationObserver(sync);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+    sync();
+    return () => observer.disconnect();
+  }, []);
+  return language;
+}
+
 export function NativeTitlebar({ alwaysVisible = false }: { alwaysVisible?: boolean }) {
   const [alwaysOnTop, setAlwaysOnTop] = useState(false);
   const [titlebarVisible, setTitlebarVisible] = useState(alwaysVisible);
   const desktop = window.museboardDesktop;
   const visible = alwaysVisible || titlebarVisible;
-  const language = localStorage.getItem("imagestorage-language") || "en";
-  const t = (en: string, ja: string, zh: string, ko: string) =>
+  const language = useUiLanguage();
+  const t =(en: string, ja: string, zh: string, ko: string) =>
     language === "ja" ? ja : language === "zh" ? zh : language === "ko" ? ko : en;
   const pinLabel = alwaysOnTop
     ? t("Stop keeping this window on top", "最前面への固定を解除", "取消窗口置顶", "항상 위에 표시 해제")

@@ -393,6 +393,7 @@ function editorContext() {
     window: { requestAnimationFrame: (fn) => fn(), setTimeout() {} },
     initializedRef: { current: false }, activeStrokeRef: { current: null }, strokeSessionRef: { current: null },
     analysisRef: { current: null }, undoStackRef: { current: [] }, redoStackRef: { current: [] },
+    savedAnalysisRef: { current: "" },
     desktop: { close() {} },
   });
   context.setAnalysis = (update) => { context.analysis = typeof update === "function" ? update(context.analysis) : update; };

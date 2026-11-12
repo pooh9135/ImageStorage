@@ -53,6 +53,13 @@ contextBridge.exposeInMainWorld("museboardDesktop", {
     ipcRenderer.on("image-analysis:init", listener);
     return () => ipcRenderer.removeListener("image-analysis:init", listener);
   },
+  setImageAnalysisDirty: (dirty) =>
+    ipcRenderer.send("image-analysis:dirty", Boolean(dirty)),
+  onImageAnalysisSaveRequest: (callback) => {
+    const listener = () => callback();
+    ipcRenderer.on("image-analysis:save-request", listener);
+    return () => ipcRenderer.removeListener("image-analysis:save-request", listener);
+  },
   onImageAnalysisUpdate: (callback) => {
     const listener = (_event, payload) => callback(payload);
     ipcRenderer.on("image-analysis:updated", listener);

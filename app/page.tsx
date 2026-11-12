@@ -4664,7 +4664,7 @@ export default function Home() {
           >
             <header>
               <div>
-                <small>REFERENCE</small>
+                <small>{text("REFERENCE", "資料", "参考资料", "참고 자료")}</small>
                 <h2>{imageInfoItem?.caption || text("Image details", "画像の詳細", "图像详情", "이미지 세부 정보")}</h2>
               </div>
               <button onClick={() => setImageInfoDraft(null)} aria-label={text("Close", "閉じる", "关闭", "닫기")}>×</button>
@@ -5415,7 +5415,7 @@ export default function Home() {
           type="file"
           multiple
           onChange={handleFileInput}
-          aria-label="Choose reference images"
+          aria-label={text("Choose images", "画像を選択", "选择图片", "이미지 선택")}
         />
       </section>
     </main>

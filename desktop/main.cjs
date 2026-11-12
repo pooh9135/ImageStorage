@@ -41,6 +41,24 @@ let titlebarVisible = false;
 const MAX_IMAGE_BYTES = 120 * 1024 * 1024;
 const IMAGE_FETCH_TIMEOUT_MS = 30 * 1000;
 
+// Native dialogs follow the language chosen in Settings. The renderer keeps it in localStorage,
+// which every app window shares, so read it from any live window.
+async function uiLanguage() {
+  try {
+    const source = [mainWindow, ...analysisWindows.values()].find((window) => window && !window.isDestroyed());
+    const value = await source?.webContents.executeJavaScript('localStorage.getItem("imagestorage-language")', false);
+    if (["en", "ja", "zh", "ko"].includes(value)) return value;
+  } catch {
+    // A window that is still loading cannot answer; English is the safe fallback.
+  }
+  return "en";
+}
+
+async function uiText() {
+  const language = await uiLanguage();
+  return (en, ja, zh, ko) => language === "ja" ? ja : language === "zh" ? zh : language === "ko" ? ko : en;
+}
+
 function isMainRenderer(event) {
   return Boolean(mainWindow && !mainWindow.isDestroyed() && event.sender === mainWindow.webContents && event.senderFrame === mainWindow.webContents.mainFrame);
 }
@@ -3174,7 +3192,10 @@ function closeImageAnalysisWindows() {
   const windows = [...analysisWindows.values()];
   analysisWindows.clear();
   for (const window of windows) {
-    if (!window.isDestroyed()) window.close();
+    if (window.isDestroyed()) continue;
+    // The project these edits belong to is being replaced, so there is nothing left to save into.
+    window.__discardOnClose = true;
+    window.close();
   }
 }
 
@@ -3221,6 +3242,33 @@ function openImageAnalysisWindow(payload) {
       analysisWindow.__imageAnalysisPayload,
     );
   });
+  // Closing with drawing that was never saved asks first, whichever way the window is closed.
+  analysisWindow.on("close", (event) => {
+    if (!analysisWindow.__dirty || analysisWindow.__discardOnClose) return;
+    event.preventDefault();
+    if (analysisWindow.__closePromptOpen) return;
+    analysisWindow.__closePromptOpen = true;
+    void (async () => {
+      const t = await uiText();
+      const { response } = await dialog.showMessageBox(analysisWindow, {
+        type: "warning",
+        title: "ImageStorage",
+        message: t("Save your changes to this image?", "この画像への変更を保存しますか？", "要保存对此图像的更改吗？", "이 이미지의 변경 사항을 저장할까요?"),
+        detail: t("Lines and guides you have not saved will be lost.", "保存していない線やガイドは失われます。", "未保存的线条和辅助线将会丢失。", "저장하지 않은 선과 가이드는 사라집니다."),
+        buttons: [t("Save", "保存", "保存", "저장"), t("Don't save", "保存しない", "不保存", "저장 안 함"), t("Cancel", "キャンセル", "取消", "취소")],
+        defaultId: 0,
+        cancelId: 2,
+        noLink: true,
+      });
+      analysisWindow.__closePromptOpen = false;
+      if (analysisWindow.isDestroyed()) return;
+      if (response === 0) analysisWindow.webContents.send("image-analysis:save-request");
+      else if (response === 1) {
+        analysisWindow.__discardOnClose = true;
+        analysisWindow.close();
+      }
+    })();
+  });
   analysisWindow.on("closed", () => {
     if (analysisWindows.get(payload.itemId) === analysisWindow) {
       analysisWindows.delete(payload.itemId);
@@ -3233,8 +3281,9 @@ function openImageAnalysisWindow(payload) {
 
 ipcMain.handle("project:open", async () => {
   if (restoringBackup) return { canceled: true };
+  const t = await uiText();
   const result = await dialog.showOpenDialog(mainWindow, {
-    title: "Open ImageStorage project",
+    title: t("Open ImageStorage project", "ImageStorage プロジェクトを開く", "打开 ImageStorage 项目", "ImageStorage 프로젝트 열기"),
     filters: [
       {
         name: "ImageStorage Project",
@@ -3257,8 +3306,9 @@ ipcMain.handle("project:open", async () => {
   } catch (error) {
     await dialog.showMessageBox(mainWindow, {
       type: "error",
-      title: "Could not open project",
-      message: "This file is not a valid ImageStorage project.",
+      title: t("Could not open project", "プロジェクトを開けませんでした", "无法打开项目", "프로젝트를 열 수 없습니다"),
+      message: t("This file is not a valid ImageStorage project.", "このファイルは ImageStorage のプロジェクトとして読み込めません。",
+        "此文件不是有效的 ImageStorage 项目。", "이 파일은 올바른 ImageStorage 프로젝트가 아닙니다."),
       detail: error instanceof Error ? error.message : "",
     });
     return { canceled: true };
@@ -3276,8 +3326,9 @@ async function saveProjectSnapshot(data, requestGeneration) {
 
   let filePath = currentProjectPath;
   if (!filePath) {
+    const t = await uiText();
     const result = await dialog.showSaveDialog(mainWindow, {
-      title: "Save ImageStorage project",
+      title: t("Save ImageStorage project", "ImageStorage プロジェクトを保存", "保存 ImageStorage 项目", "ImageStorage 프로젝트 저장"),
       defaultPath: "Untitled.imagestorage",
       filters: [
         {
@@ -3301,10 +3352,12 @@ async function saveProjectSnapshot(data, requestGeneration) {
     if (requestGeneration === projectGeneration) currentProjectPath = filePath;
     return { canceled: false, name: path.basename(filePath) };
   } catch (error) {
+    const t = await uiText();
     await dialog.showMessageBox(mainWindow, {
       type: "error",
-      title: "Could not save project",
-      message: "The portable project could not be created.",
+      title: t("Could not save project", "プロジェクトを保存できませんでした", "无法保存项目", "프로젝트를 저장할 수 없습니다"),
+      message: t("The portable project could not be created.", "プロジェクトファイルを作成できませんでした。",
+        "无法创建项目文件。", "프로젝트 파일을 만들 수 없습니다."),
       detail: error instanceof Error ? error.message : "",
     });
     return { canceled: true };
@@ -3355,8 +3408,10 @@ ipcMain.handle("storage:create-backup", (event, data) => storageRequest(event,
 ipcMain.handle("storage:find-duplicates", (event, data) => storageRequest(event, () => storageTools.findDuplicates(data)));
 ipcMain.handle("storage:export-list", (event, data, boardId) => storageRequest(event, () => queueStorageWrite(async () => {
   if (!validProjectSnapshot(data) || !data.boards.some((board) => board.id === boardId)) throw new Error("Invalid list selection");
+  const t = await uiText();
   const result = await dialog.showOpenDialog(mainWindow, {
-    title: "画像の出力先フォルダーを選択 / Export images", properties: ["openDirectory", "createDirectory"],
+    title: t("Choose a folder to export images to", "画像の出力先フォルダーを選択", "选择图片导出文件夹", "이미지를 내보낼 폴더 선택"),
+    properties: ["openDirectory", "createDirectory"],
   });
   if (result.canceled || !result.filePaths[0]) return { canceled: true };
   return storageTools.exportImages(data, boardId, result.filePaths[0]);
@@ -3394,7 +3449,8 @@ ipcMain.handle("settings:save-global-background", (_event, reference) =>
 ipcMain.handle("pinterest-board:open", async event => {
   if (!isMainRenderer(event)) return { canceled: true };
   try {
-    const result = await dialog.showOpenDialog(mainWindow, { title: "ボードファイルを読み込む", filters: [{ name: "ImageStorage Board", extensions: ["json"] }], properties: ["openFile"] });
+    const t = await uiText();
+    const result = await dialog.showOpenDialog(mainWindow, { title: t("Import board file", "ボードファイルを読み込む", "导入图板文件", "보드 파일 가져오기"), filters: [{ name: "ImageStorage Board", extensions: ["json"] }], properties: ["openFile"] });
     if (result.canceled || !result.filePaths[0]) return { canceled: true };
     const file = result.filePaths[0], stats = await fs.stat(file);
     if (!stats.isFile() || stats.size > MAX_BOARD_FILE_BYTES) throw new Error("8MB以下のボードファイルを選択してください。");
@@ -3404,9 +3460,10 @@ ipcMain.handle("pinterest-board:open", async event => {
 });
 
 ipcMain.handle("image:choose-files", async () => {
+  const t = await uiText();
   const result = await dialog.showOpenDialog(mainWindow, {
-    title: "Choose reference images",
-    filters: [{ name: "All files", extensions: ["*"] }],
+    title: t("Choose images", "画像を選択", "选择图片", "이미지 선택"),
+    filters: [{ name: t("All files", "すべてのファイル", "所有文件", "모든 파일"), extensions: ["*"] }],
     properties: ["openFile", "multiSelections"],
   });
   if (result.canceled) return { canceled: true, images: [], errors: [] };
@@ -3536,6 +3593,11 @@ ipcMain.handle("image-analysis:get-init", (event) => {
   const payload = targetWindow.__imageAnalysisPayload;
   return payload && analysisWindows.get(payload.itemId) === targetWindow ? payload : null;
 });
+ipcMain.on("image-analysis:dirty", (event, dirty) => {
+  const analysisWindow = [...analysisWindows.values()].find((window) => !window.isDestroyed() && window.webContents === event.sender);
+  if (analysisWindow) analysisWindow.__dirty = dirty === true;
+});
+
 ipcMain.on("image-analysis:update", (event, payload) => {
   if (!payload || typeof payload.itemId !== "string") return;
   const analysisWindow = analysisWindows.get(payload.itemId);

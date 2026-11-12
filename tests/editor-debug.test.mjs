@@ -40,6 +40,7 @@ function fixture(initial = { preset: "none", gridVisible: false, guideColor: "#2
     payload: { itemId: "image-A" },
     analysis: initial, analysisRef: { current: initial }, activeStrokeRef: { current: null },
     strokeSessionRef: { current: null }, undoStackRef: { current: [] }, redoStackRef: { current: [] }, initializedRef: { current: true },
+    savedAnalysisRef: { current: "" },
     imageFrameRef: { current: { getBoundingClientRect: () => rect } },
     localStorage: { getItem: () => null },
     window: { requestAnimationFrame: (fn) => fn(), setTimeout() {} },

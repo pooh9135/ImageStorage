@@ -1,6 +1,6 @@
 {
   "name": "imagestorage",
-  "version": "0.15.56",
+  "version": "0.15.57",
   "description": "A desktop visual reference canvas with saved boards and sticky notes.",
   "author": "ImageStorage",
   "main": "desktop/main.cjs",
@@ -78,7 +78,7 @@
       "package.json"
     ],
     "directories": {
-      "output": "release-imagestorage-0.15.56"
+      "output": "release-imagestorage-0.15.57"
     },
     "extraFiles": [
       {

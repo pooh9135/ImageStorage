@@ -176,6 +176,8 @@ interface Window {
     onImageAnalysisInit: (
       callback: (payload: ImageAnalysisPayload) => void,
     ) => () => void;
+    setImageAnalysisDirty?: (dirty: boolean) => void;
+    onImageAnalysisSaveRequest?: (callback: () => void) => () => void;
     onImageAnalysisUpdate: (
       callback: (payload: { itemId: string; analysis: ImageAnalysisState }) => void,
     ) => () => void;

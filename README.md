@@ -14,13 +14,13 @@ ImageStorage は、資料画像を集めて、整理して、並べて見るた�
 
 | ファイル | 内容 |
 | --- | --- |
-| `ImageStorage-0.15.56-Setup.exe` | インストーラー |
+| `ImageStorage-0.15.57-Setup.exe` | インストーラー |
 | `ImageStorage-Tutorial-JA.mp4` | 使い方の動画（日本語・約7分30秒） |
 | `ImageStorage-Tutorial-EN.mp4` | 使い方の動画（英語） |
 
 ### インストール
 
-1. `ImageStorage-0.15.56-Setup.exe` をダブルクリックします。
+1. `ImageStorage-0.15.57-Setup.exe` をダブルクリックします。
 2. 画面の案内に従ってインストールします。
 
 インストーラーにはデジタル署名がないため、「WindowsによってPCが保護されました」と表示される場合があります。その場合は「詳細情報」→「実行」を押してください。
@@ -30,7 +30,7 @@ ImageStorage は、資料画像を集めて、整理して、並べて見るた�
 - 画像をドラッグ＆ドロップで追加して、リストで整理する
 - キャンバスに自由に並べる
 - 画像を拡大して細部を調べる
-- ブラウザーから画像を直接保存する（インストール先の `browser-connector` フォルダーを使います）
+- ブラウザーから画像を直接保存する（インストールの最後に拡張機能の導入手順を案内します。インストール先の `browser-connector` フォルダーを使います）
 - Pinterest のボードを取り込む
 - データをプロジェクトファイルとして保存する
 
@@ -56,7 +56,7 @@ Windows 10 / 11（64ビット）
 ### チェックサム（SHA-256）
 
 ```
-208f948d784b7c1f2f59bfc4407f96614670d990775f819f0cec55a6197db349  ImageStorage-0.15.56-Setup.exe
+0e733cfbc3c6a1166ae7400d19a0dd216184a202b7014c89a50988c792705544  ImageStorage-0.15.57-Setup.exe
 ```
 
 ### ソースからビルドする
@@ -88,13 +88,13 @@ Get these files from [Releases](https://github.com/pooh9135/ImageStorage/release
 
 | File | What it is |
 | --- | --- |
-| `ImageStorage-0.15.56-Setup.exe` | Installer |
+| `ImageStorage-0.15.57-Setup.exe` | Installer |
 | `ImageStorage-Tutorial-EN.mp4` | How-to video (English, about 7.5 minutes) |
 | `ImageStorage-Tutorial-JA.mp4` | How-to video (Japanese) |
 
 ### Install
 
-1. Double-click `ImageStorage-0.15.56-Setup.exe`.
+1. Double-click `ImageStorage-0.15.57-Setup.exe`.
 2. Follow the steps on screen.
 
 The installer is not digitally signed, so Windows may show "Windows protected your PC". Click "More info", then "Run anyway".
@@ -104,7 +104,7 @@ The installer is not digitally signed, so Windows may show "Windows protected yo
 - Add images by drag and drop and organize them in lists
 - Arrange them freely on a canvas
 - Zoom in to study an image in detail
-- Save images straight from your browser (uses the `browser-connector` folder in the install folder; its screens are in Japanese for now)
+- Save images straight from your browser (the installer walks you through adding the extension at the end of setup; uses the `browser-connector` folder in the install folder; its screens are in Japanese for now)
 - Import a Pinterest board
 - Save your data as a project file
 
@@ -130,7 +130,7 @@ Windows 10 / 11 (64-bit)
 ### Checksum (SHA-256)
 
 ```
-208f948d784b7c1f2f59bfc4407f96614670d990775f819f0cec55a6197db349  ImageStorage-0.15.56-Setup.exe
+0e733cfbc3c6a1166ae7400d19a0dd216184a202b7014c89a50988c792705544  ImageStorage-0.15.57-Setup.exe
 ```
 
 ### Build from source

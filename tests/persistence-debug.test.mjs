@@ -368,7 +368,7 @@ async function projectContext(t, overrides = {}) {
     },
     ...overrides,
   });
-  for (const name of ["replaceFileSafely", "writePortableProject", "saveProjectSnapshot", "closeImageAnalysisWindows"]) installFunction(context, name);
+  for (const name of ["uiLanguage", "uiText", "replaceFileSafely", "writePortableProject", "saveProjectSnapshot", "closeImageAnalysisWindows"]) installFunction(context, name);
   installHandler(context, "ipcMain.handle", "project:save", "saveProject");
   installHandler(context, "ipcMain.handle", "project:open", "openProject");
   const readManifest = async (target) => {
