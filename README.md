@@ -29,6 +29,12 @@ GitHub の [Releases](https://github.com/pooh9135/ImageStorage/releases/latest) 
 
 インストーラーにはデジタル署名がないため、「WindowsによってPCが保護されました」と表示される場合があります。その場合は「詳細情報」→「実行」を押してください。
 
+### ブラウザー拡張機能の導入
+
+インストールの最後に、拡張機能の導入手順が画面で案内されます。流れは次のとおりです。
+
+![拡張機能の導入手順](docs/images/how-to-install.png)
+
 ### できること
 
 - 画像をドラッグ＆ドロップで追加して、リストで整理する
@@ -106,6 +112,12 @@ You can also get these files from GitHub [Releases](https://github.com/pooh9135/
 2. Follow the steps on screen.
 
 The installer is not digitally signed, so Windows may show "Windows protected your PC". Click "More info", then "Run anyway".
+
+### Browser extension
+
+At the end of setup, the installer walks you through adding the extension. The steps look like this (screens in Japanese):
+
+![How to install the extension](docs/images/how-to-install.png)
 
 ### Features
 
