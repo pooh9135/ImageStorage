@@ -12,6 +12,9 @@ const root = path.dirname(base);
 const identity = JSON.parse(await fs.readFile(path.join(base, "identity.json"), "utf8"));
 const expectedId = createHash("sha256").update(Buffer.from(identity.chromiumKey, "base64")).digest("hex").slice(0, 32).replace(/[0-9a-f]/g, (character) => String.fromCharCode(97 + parseInt(character, 16)));
 if (expectedId !== identity.chromiumId || !/^[a-p]{32}$/.test(expectedId)) throw new Error("Invalid extension identity");
+// Store-assigned IDs (Chrome Web Store, Edge Add-ons) differ from the developer key's ID; the native host accepts all of them.
+const chromiumIds = [identity.chromiumId, ...(identity.chromiumStoreIds || [])];
+if (chromiumIds.some((id) => !/^[a-p]{32}$/.test(id)) || new Set(chromiumIds).size !== chromiumIds.length) throw new Error("Invalid store extension ID");
 const dist = path.join(base, "dist");
 await fs.mkdir(dist, { recursive: true });
 const icons = { 16: "icons/icon16.png", 32: "icons/icon32.png", 48: "icons/icon48.png", 128: "icons/icon128.png" };
@@ -45,7 +48,7 @@ if (process.platform === "win32") {
   const generated = path.join(root, "work/browser-extension-build");
   await fs.mkdir(generated, { recursive: true });
   const identitySource = path.join(generated, "HostIdentity.cs");
-  await fs.writeFile(identitySource, `internal static class HostIdentity { public const string ChromiumId = ${JSON.stringify(identity.chromiumId)}; public const string FirefoxId = ${JSON.stringify(identity.firefoxId)}; }\n`);
+  await fs.writeFile(identitySource, `internal static class HostIdentity { public static readonly string[] ChromiumIds = { ${chromiumIds.map((id) => JSON.stringify(id)).join(", ")} }; public const string FirefoxId = ${JSON.stringify(identity.firefoxId)}; }\n`);
   await fs.mkdir(path.join(dist, "native-host"), { recursive: true });
   for (const [source, output, target, references] of [
     ["NativeHost.cs", "native-host/ImageStorage.NativeHost.exe", "exe", ["System.Web.Extensions.dll"]],
@@ -56,5 +59,5 @@ if (process.platform === "win32") {
   }
 }
 for (const file of ["使い方.txt", "Zen署名申請.txt"]) await fs.copyFile(path.join(base, file), path.join(dist, file));
-await fs.writeFile(path.join(dist, "extension-identity.json"), JSON.stringify({ hostName: identity.hostName, chromiumId: identity.chromiumId, firefoxId: identity.firefoxId, version: common.version }, null, 2));
+await fs.writeFile(path.join(dist, "extension-identity.json"), JSON.stringify({ hostName: identity.hostName, chromiumId: identity.chromiumId, chromiumIds, firefoxId: identity.firefoxId, version: common.version }, null, 2));
 console.log(`Built Chrome/Edge and Zen extensions, native host, and connector setup in ${dist}`);

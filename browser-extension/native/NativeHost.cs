@@ -163,7 +163,8 @@ internal static class NativeHost
 
     public static int Main(string[] args)
     {
-        bool allowed = args.Length > 0 && args[0] == "chrome-extension://" + HostIdentity.ChromiumId + "/";
+        bool allowed = false;
+        if (args.Length > 0) foreach (var id in HostIdentity.ChromiumIds) if (args[0] == "chrome-extension://" + id + "/") allowed = true;
         if (!allowed) foreach (var argument in args) if (argument == HostIdentity.FirefoxId) allowed = true;
         if (!allowed) return 1;
         try

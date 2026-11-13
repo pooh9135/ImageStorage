@@ -44,7 +44,7 @@ internal static class SetupConnector
         File.WriteAllText(Path.Combine(DirectoryPath, "application.json"), Json(new { appPath = AppPath, appArgs = new string[0] }), Utf8);
         var chromium = Path.Combine(DirectoryPath, "chromium-host.json");
         var firefox = Path.Combine(DirectoryPath, "firefox-host.json");
-        File.WriteAllText(chromium, Json(new { name = HostName, description = "ImageStorage browser connector", path = host, type = "stdio", allowed_origins = new[] { "chrome-extension://" + HostIdentity.ChromiumId + "/" } }), Utf8);
+        File.WriteAllText(chromium, Json(new { name = HostName, description = "ImageStorage browser connector", path = host, type = "stdio", allowed_origins = Array.ConvertAll(HostIdentity.ChromiumIds, id => "chrome-extension://" + id + "/") }), Utf8);
         File.WriteAllText(firefox, Json(new { name = HostName, description = "ImageStorage browser connector", path = host, type = "stdio", allowed_extensions = new[] { HostIdentity.FirefoxId } }), Utf8);
         RegistryEntries(delegate(RegistryKey root, string keyPath) {
             using (var key = root.CreateSubKey(keyPath)) key.SetValue("", keyPath.Contains("\\Mozilla\\") ? firefox : chromium, RegistryValueKind.String);
