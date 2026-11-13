@@ -12,6 +12,8 @@ ImageStorage は、資料画像を集めて、整理して、並べて見るた�
 
 **BOOTH：** https://pooh9135.booth.pm/items/9142066 （無料版・支援版。中身は同じです）
 
+**紹介動画（YouTube）：** https://youtu.be/q_9BoeI2Aso
+
 GitHub の [Releases](https://github.com/pooh9135/ImageStorage/releases/latest) からも、次のファイルをダウンロードできます。
 
 | ファイル | 内容 |
@@ -87,6 +89,8 @@ ImageStorage is a Windows app for collecting reference images, organizing them, 
 ### Download
 
 **BOOTH:** https://pooh9135.booth.pm/items/9142066 (Free and Support editions — both are identical)
+
+**Intro video (YouTube):** https://youtu.be/q_9BoeI2Aso
 
 You can also get these files from GitHub [Releases](https://github.com/pooh9135/ImageStorage/releases/latest).
 
